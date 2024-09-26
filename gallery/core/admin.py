@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Gallery
+from django.contrib.auth.admin import UserAdmin
+
+from .models import Gallery, CustomUser
 # Register your models here.
 
-
-@admin.register(Gallery)
-class GalleryAdmin(admin.ModelAdmin):
-    list_display = ('gallery_name', 'location')
+admin.site.register(Gallery)
+admin.site.register(CustomUser)
