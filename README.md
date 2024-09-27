@@ -1,6 +1,6 @@
 # 非正式readme 
 
-## Start
+## 1. Start
 ### 1.1 git 
 https://docs.github.com/en/get-started/getting-started-with-git/set-up-git 
 
@@ -50,3 +50,42 @@ git commit -m '随便写什么'
 git push origin main
 ```
 
+### 1.3 dependency（持续更新）
+    django
+    Pillow
+
+
+## 2. 开发注意事项
+
+### 2.1 格式
+尽量PEP-8，不太离谱就行其实（）复杂的函数写注释，和已有example风格尽量统一。
+
+### 2.2 进度
+基础功能ylj推荐顺序是
++ 数据库模型
++ 用户管理员登录登出
++ 开发界面
++ 交互功能实现
++ 完善权限
++ 前端美化
+
+后面可以根据个人感觉随便加。
+
+前端写最简单的就可以了，最后再改。但是除了登录注册别的都需要继承base。
+
+加了功能之后要把接口记录在
+ [UML共享](https://lucid.app/lucidchart/dc818aea-4b89-472b-a969-b0ae45f560bb/edit?view_items=3cpbG59Okvto&invitationId=inv_ae39550e-00ba-408d-937b-35542d821cc8)
+ 这里，黑色是设计的彩色是已经完成的。
+
+
+### 2.3 测试注意事项
+现在已经加了几个测试用user。
+alice bob root， alice管理员，bob是普通游客，root是超级管理员，密码全是123456
+
+也建好了四个馆，画，tag，作者 example
+
+最好不要动model和setting里面user/auth相关。这个migrate有时候很智障，可能它识别不出来。
+
+翻车了也没关系，db.sqlite删了重新手动创建以上instance就行了。(^_^)
+
+另外，最好做完一小步就检查一下是不是对的，django 不好 debug。 gpt也会胡说八道。
