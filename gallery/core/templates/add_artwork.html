@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %}Add New Artwork for {{ gallery.gallery_name }}{% endblock %}
+
+{% block content %}
+    <form action="{% url 'add_artwork' gallery.gallery_name %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Artwork</button>
+    </form>
+{% endblock %}

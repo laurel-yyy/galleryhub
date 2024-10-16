@@ -13,6 +13,7 @@ class Gallery(models.Model):
     gallery_name = models.CharField(max_length=300, primary_key=True)
     location = models.CharField(max_length=50)
     description = models.TextField(default="gallery description")
+    image = models.ImageField(upload_to='img/gallery', default='img/gallery/default.jpg')
     visitor_capacity = models.IntegerField(default=300)
     rating = models.FloatField(default=3.0)
 
@@ -22,7 +23,7 @@ class Gallery(models.Model):
 
 class Author(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
-    description  =  models.CharField(max_length=300, default="Author description")
+    description  =  models.TextField(default="Author description")
     rating = models.FloatField(default=3.0)
     
     def __str__(self):
@@ -37,7 +38,7 @@ class Artwork(models.Model):
     image = models.ImageField(upload_to='img/artwork')
     rating = models.FloatField(default=3.0)
     year = models.PositiveIntegerField(default=2000)
-    
+
     def __str__(self):
         return self.title
 

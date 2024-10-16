@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}{{ gallery.gallery_name }} - GalleryOfOurOwn{% endblock %}
+
+{% block content %}
+<div class="gallery-container">
+    <h1>{{ gallery.gallery_name }}</h1> 
+    <h3>Image:</h3>
+
+    {% if gallery.image %}
+        <img src="{{ gallery.image.url }}" alt="{{ gallery.gallery_name }}" class="gallery-image">
+    {% else %}
+        <p>No image available.</p>
+    {% endif %}
+
+    <form action="{% url 'edit_gallery' gallery.gallery_name %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }} 
+
+        <p>Rating: {{ gallery.rating }}</p>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+
+<h3>Artworks: </h3>
+<div class="artwork-container">
+
+    {% for artwork in gallery.artwork.all %}
+    <div class="artwork-card">
+        <a href="{% url 'edit_artwork' gallery.gallery_name artwork.title %}">
+            <img src="{{ artwork.image.url}}" alt="{{ artwork.title }}" class="artwork-image">
+            <p>{{ artwork.title }}</p>
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+
+<a href="{% url 'add_artwork' gallery.gallery_name %}">
+    <button type="button">Add New Artwork</button>
+</a>
+
+<a href="{% url 'add_author' %}">
+    <button type="button">Add New Author</button>
+</a>
+
+<a href="{% url 'add_styletag' %}">
+    <button type="button">Add New Style Tag</button>
+</a>
+
+
+
+{% endblock %}

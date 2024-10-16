@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% block title %}Add New StyleTag{% endblock %}
+
+{% block content %}
+<form action="{% url 'add_styletag' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Style Tag</button>
+</form>
+{% endblock %}

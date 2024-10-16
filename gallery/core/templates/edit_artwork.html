@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ artwork.title }} - GalleryOfOurOwn{% endblock %}
+
+{% block content %}
+<form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ artwork_form.as_p }}
+
+    <h3>Authors:</h3>
+    <div class="author-container">
+        {% for form in author_formset.forms %}
+            <div class="author-card">
+                {{ form.as_p }}
+                {% if form.instance.pk %}
+                    <label for="{{ form.prefix }}-DELETE">Delete</label>
+                    {{ form.DELETE }}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <h3>Style Tags:</h3>
+    {{ artwork_form.styletags }}
+
+    <button type="submit">Save Changes</button>
+</form>
+
+<style>
+    .author-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .author-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        width: 200px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
