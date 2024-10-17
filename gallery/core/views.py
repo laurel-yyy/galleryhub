@@ -13,9 +13,18 @@ from .forms import CustomUserCreationForm, GalleryForm, ArtworkForm, ArtworkForm
 # Create your views here.
 
 def home(request):
+    """
+    Renders the homepage template.
+    """
     return render(request, 'home.html')
 
+
 def register(request):
+    """
+    Handles user registration. If the method is POST and the form is valid,
+    a new user is created, logged in, and redirected to the homepage.
+    If the method is GET, it renders the registration form.
+    """
     if request.method == 'POST':
         register_form = CustomUserCreationForm(request.POST)
         if register_form.is_valid():
@@ -25,22 +34,28 @@ def register(request):
             return redirect('home')
     else:
         register_form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form':register_form})
+    return render(request, 'register.html', {'form': register_form})
+
 
 @login_required
 def different_view_example(request):
+    """
+    An example for render different view to user and admin
+    """
     if request.user.is_staff:
         return render(request, 'admin_page.html')
     else:
         return render(request, 'user_page.html')
-    
-def gallery_detail(request, gallery_name):
-    formatted_gallery_name = gallery_name.replace('_', ' ').title()
-    gallery = get_object_or_404(Gallery, gallery_name=formatted_gallery_name)
-    return render(request, 'gallery_detail.html', {'gallery': gallery})
 
+
+# Views for admin 
 
 def edit_gallery(request, gallery_name):
+    """
+    Handles the editing of a gallery. Retrieves the gallery instance based on
+    the name, and allows the user to edit the gallery and associated artworks.
+    On successful POST, saves the changes and redirects back to the edit page.
+    """
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
     
     if request.method == 'POST':
@@ -61,38 +76,44 @@ def edit_gallery(request, gallery_name):
         'gallery': gallery
     })
 
+
 def edit_artwork_view(request, gallery_name, artwork_title):
+    """
+    Handles the editing of a specific artwork. Retrieves the artwork based on the title
+    and its associated gallery. If the method is POST and the form is valid, updates the
+    artwork and redirects to the gallery edit page.
+    """
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
     artwork = get_object_or_404(Artwork, title=artwork_title, gallery=gallery)
 
-    AuthorFormSet = modelformset_factory(Author, form=AuthorForm, extra=1, can_delete=True)
     if request.method == 'POST':
         artwork_form = ArtworkForm(request.POST, request.FILES, instance=artwork)
-        author_formset = AuthorFormSet(request.POST, queryset=Author.objects.filter(artwork=artwork))
-        if artwork_form.is_valid() and author_formset.is_valid():
+        if artwork_form.is_valid():
             artwork_form.save()
-            author_formset.save()
+
             return redirect('edit_gallery', gallery_name=gallery.gallery_name)
     else:
         artwork_form = ArtworkForm(instance=artwork)
-        author_formset = AuthorFormSet(queryset=Author.objects.filter(artwork=artwork))
-    
+
     return render(request, 'edit_artwork.html', {
         'artwork_form': artwork_form,
-        'author_formset': author_formset,
         'gallery': gallery,
         'artwork': artwork
     })
 
 
 def add_artwork_view(request, gallery_name):
+    """
+    Handles the creation of a new artwork for a specific gallery. If the method
+    is POST and the form is valid, it saves the new artwork and redirects to the
+    gallery edit page. If the method is GET, it displays a blank artwork form.
+    """
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
     
     if request.method == 'POST':
         form = ArtworkForm(request.POST, request.FILES)
         if form.is_valid():
             try:
-                print("222")
                 new_artwork = form.save(commit=False)
                 new_artwork.gallery = gallery  
                 new_artwork.save()
@@ -105,7 +126,13 @@ def add_artwork_view(request, gallery_name):
     
     return render(request, 'add_artwork.html', {'form': form, 'gallery': gallery})
 
+
 def add_author_view(request):
+    """
+    Handles the creation of a new author. If the method is POST and the form is valid,
+    it saves the new author and redirects to the previous page or the gallery edit page
+    based on the request. If the method is GET, it displays the author creation form.
+    """
     if request.method == 'POST':
         form = AuthorForm(request.POST)
         if form.is_valid():
@@ -117,10 +144,13 @@ def add_author_view(request):
 
     return render(request, 'add_author.html', {'form': form})
 
-from .forms import StyleTagForm
-
 
 def add_styletag_view(request):
+    """
+    Handles the creation of a new style tag. If the method is POST and the form is valid,
+    it saves the new style tag and redirects to the previous page or the gallery edit page
+    based on the request. If the method is GET, it displays the style tag creation form.
+    """
     if request.method == 'POST':
         form = StyleTagForm(request.POST)
         if form.is_valid():
@@ -131,4 +161,3 @@ def add_styletag_view(request):
         form = StyleTagForm()
 
     return render(request, 'add_styletag.html', {'form': form})
-        
