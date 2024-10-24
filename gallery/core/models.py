@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 # Create your models here.
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
@@ -25,6 +26,7 @@ class Author(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
     description  =  models.TextField(default="Author description")
     rating = models.FloatField(default=3.0)
+
     
     def __str__(self):
         return self.name

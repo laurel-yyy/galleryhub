@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+h1{
+    color: black;
+    font-family: Times;
+    font-size: 300%
+}
+p {
+    color: black;
+    font-family: verdana;
+    font-size:160;
+}
+</style>
+<title>Artwork<title></title></title>
+</head>
+<body>
+
+<h1>{{ artwork.title }}</h1>
+<img src={{ artwork.image }} alt={{ artwork.title }} height="700">
+<p>Author: <a href="{% url 'author' artwork.author %}">{{ artwork.author }}</a></p>
+<p>Arkwork Description: {{ artwork.description }}<p>
+<p>Year: {{ artwork.year }}<p>
+
+</body>
+</html>

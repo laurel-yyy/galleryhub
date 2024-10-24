@@ -9,6 +9,9 @@ from django.db import IntegrityError
 
 from .models import Gallery, Artwork, Author, StyleTag
 from .forms import CustomUserCreationForm, GalleryForm, ArtworkForm, ArtworkFormSet, AuthorForm, StyleTagForm
+from django.http import HttpResponse
+from django.template import loader
+
 
 # Create your views here.
 
@@ -161,3 +164,31 @@ def add_styletag_view(request):
         form = StyleTagForm()
 
     return render(request, 'add_styletag.html', {'form': form})
+
+
+def artwork(request, artwork_title):
+    artworks = Artwork.objects.all().filter(title=artwork_title)
+    template = loader.get_template('artwork.html')
+    if len(artworks) == 0:
+        return
+    else:
+        context = {
+            'artwork':artworks[0],
+        }
+        return HttpResponse(template.render(context,request))
+
+    
+def author(request, author_name):
+    author_found = Author.objects.all().filter(name=author_name)
+    artworks = Artwork.objects.all().filter(author=author_name) 
+    template = loader.get_template('author.html')
+    if len(author_found) == 0:
+        return
+    else:
+        context = {
+            'author':author_found[0],
+            'artworks':artworks,
+        }
+        return HttpResponse(template.render(context,request))
+    
+
