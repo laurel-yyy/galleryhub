@@ -1,8 +1,26 @@
-{% extends 'base.html' %}
-{% load static %} 
-{% block title %}Home - GalleryHub {% endblock %}
+{% extends 'base.html' %} {% load static %} {% block title %}Home - GalleryHub
+{% endblock %} {% block content %}
 
-{% block content %}
-    <h1>Welcome to our galleryhub!</h1>
-    <p> 123455432112345543211234554321</p>
-{% endblock %}
+<div class="home">
+  <div class="welcome">
+    {% if user.is_authenticated %}
+    <h1>Welcome to the Gallery, {{ user.username }}!</h1>
+    <form class="searchForm" action="/search" method="get">
+      <input type="text" name="query" placeholder="Search..." required />
+      <button type="submit">Search</button>
+    </form>
+
+    {% else %}
+    <a class="homeWelcome" href="{% url 'login' %}">Welcome to the Gallery</a>
+    {% endif %}
+  </div>
+
+  <div class="recommendation">
+    <h2>Today's recommendation</h2>
+  </div>
+
+  <div class="recommendationGP">
+    <div class="galleryItem"></div>
+    {% endblock %}
+  </div>
+</div>
