@@ -1,15 +1,30 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-</body>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="loginHeader"><h1>Gallery of Art</h1></div>
+    <div class="loginContainer">
+      <h2>
+        Log in to your <br />
+        account
+      </h2>
+      <form method="post" class="loginForm">
+        {% csrf_token %} {{ form.as_p }}
+
+        <div class="btnContainer">
+          <button class="loginBtn" type="submit">Login</button>
+          <a class="singUpLink" href="{% url 'register' %}">
+            <button type="button" class="signUpBtn">Sign up</button>
+          </a>
+        </div>
+      </form>
+      <div></div>
+    </div>
+  </body>
 </html>
