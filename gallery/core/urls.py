@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('page/', views.different_view_example, name="page" ),
+    path('museum/', views.museum, name="museum" ),
     # path for admin pages
     path('manage/gallery/<str:gallery_name>/', views.edit_gallery, name='edit_gallery'),
     path('manage/gallery/<str:gallery_name>/artwork/add/', views.add_artwork_view, name='add_artwork'),

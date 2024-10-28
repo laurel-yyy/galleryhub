@@ -21,6 +21,10 @@ def home(request):
     """
     return render(request, 'home.html')
 
+def museum(request):
+    galleries = Gallery.objects.all()
+    return render(request, 'museum.html', {'galleries': galleries} )
+
 
 def register(request):
     """
