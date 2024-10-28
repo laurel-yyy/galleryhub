@@ -73,6 +73,7 @@ header nav ul li a:hover {
     background-image: url("../img/home-bg.jpg");
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
     height: 600px;
     display: flex;
     flex-direction: column;
@@ -155,6 +156,7 @@ main {
   align-items: center;
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
 }
 
 footer {
@@ -165,7 +167,6 @@ footer {
   position: relative;
   bottom: 0;
   width: 100%;
-  margin-top: 30px;
 }
 
 /* Gallery page styles */
@@ -333,6 +334,35 @@ footer {
         width: 50%;
         align-self: center;
         cursor: pointer;
+      }
+    }
+  }
+}
+
+.museum {
+  padding: 0 20px;
+
+  .galleryContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    .galleryItem {
+      display: flex;
+      column-gap: 30px;
+      align-items: center;
+
+      .description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+
+      img {
+        width: 700px;
+        height: 500px;
+        object-fit: cover;
       }
     }
   }

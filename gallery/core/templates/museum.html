@@ -1,0 +1,22 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Museum - GalleryHub
+{% endblock %} {% block content %}
+
+<div class="museum">
+  <h2>Museum</h2>
+  <div class="galleryContainer">
+    {% for gallery in galleries %}
+    <div class="galleryItem">
+      <img
+        src="{{ gallery.image.url }}"
+        alt="{{ gallery.gallery_name }}"
+        class="galleryImage"
+      />
+      <div class="description">
+        <h3>{{ gallery.gallery_name }}</h3>
+        <p>{{ gallery.description }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
