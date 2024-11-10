@@ -9,6 +9,15 @@
 
     <button type="submit">Save Changes</button>
 </form>
+<form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" method="POST" style="margin-top: 20px;">
+    {% csrf_token %}
+    <input type="hidden" name="delete_artwork" value="true">
+    <button type="submit" onclick="return confirm('Are you sure you want to delete{{ artwork.title }}')" 
+            style="background-color:red; color: white;">
+        Delete
+    </button>
+</form>
+
 
 <style>
     .author-container {

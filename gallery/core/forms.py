@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Gallery, Artwork, Author, StyleTag
+from .models import CustomUser, Gallery, Artwork, Author, StyleTag, ReservationOrder
+from datetime import date, timedelta
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -73,3 +74,20 @@ class ArtworkForm(forms.ModelForm):
         return instance
     
 ArtworkFormSet = forms.inlineformset_factory( Gallery, Artwork, form=ArtworkForm, extra=1, can_delete=True)
+
+class ReservationOrderForm(forms.ModelForm):
+    class Meta:
+        model = ReservationOrder
+        fields = ['gallery', 'order_date','num_people']
+        widgets = {
+            'order_date': forms.DateInput(attrs={
+                'type': 'date',
+                'min': date.today().strftime('%Y-%m-%d'), 
+                'max': (date.today() + timedelta(days=5)).strftime('%Y-%m-%d') 
+            }),
+            'num_people': forms.NumberInput(attrs={
+                'min': '1',
+                'max': '5',
+                'placeholder': 'Enter a number (1-5)'
+            })
+        }

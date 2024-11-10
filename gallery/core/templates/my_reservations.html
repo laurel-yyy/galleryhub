@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}My Reservations{% endblock %}
+
+{% block content %}
+<h2 style="display: block;">My Reservations</h2>
+
+<div style="margin-top: 20px;">
+    <h3 style="display: block;">Today's Reservations</h3>
+    {% if todays_reservations %}
+        <ul>
+            {% for reservation in todays_reservations %}
+                <li>
+                    {{ reservation.gallery }} - {{ reservation.order_date }} - Number of People: {{ reservation.num_people }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no reservations for today.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <h3 style="display: block;">Upcoming Reservations</h3>
+    {% if upcoming_reservations %}
+        <ul>
+            {% for reservation in upcoming_reservations %}
+                <li>
+                    {{ reservation.gallery }} - {{ reservation.order_date }} - Number of People: {{ reservation.num_people }}
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+            {% if upcoming_reservations.has_previous %}
+                <a href="?upcoming_page={{ upcoming_reservations.previous_page_number }}">Previous</a>
+            {% endif %}
+    
+            <span>Page {{ upcoming_reservations.number }} of {{ upcoming_reservations.paginator.num_pages }}</span>
+    
+            {% if upcoming_reservations.has_next %}
+                <a href="?upcoming_page={{ upcoming_reservations.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>You have no upcoming reservations.</p>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    <h3 style="display: block;">Finished Reservations</h3>
+    {% if finished_reservations %}
+        <ul>
+            {% for reservation in finished_reservations %}
+                <li>
+                    {{ reservation.gallery }} - {{ reservation.order_date }} - Number of People: {{ reservation.num_people }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            {% if finished_reservations.has_previous %}
+                <a href="?finished_page={{ finished_reservations.previous_page_number }}">Previous</a>
+            {% endif %}
+    
+            <span>Page {{ finished_reservations.number }} of {{ finished_reservations.paginator.num_pages }}</span>
+    
+            {% if finished_reservations.has_next %}
+                <a href="?finished_page={{ finished_reservations.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+        
+    {% else %}
+        <p>You have no finished reservations.</p>
+    {% endif %}
+</div>
+{% endblock %}

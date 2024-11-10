@@ -5,13 +5,13 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_delete
 from django.dispatch import receiver
 from django.db.models import Subquery, OuterRef, Avg
 
 import uuid
 
-# Create your models here.
+
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
     
@@ -141,3 +141,9 @@ def update_object_average_rating(sender, instance, **kwargs):
     content_object = instance.content_object
     content_object.rating = average_rating if average_rating is not None else 4.0
     content_object.save()
+
+# update styletag
+@receiver(pre_delete, sender=Artwork)
+def remove_artwork_from_styletags(sender, instance, **kwargs):
+    for tag in instance.styletag.all():
+        tag.artwork.remove(instance)

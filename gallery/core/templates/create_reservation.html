@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Create Reservation Order{% endblock %}
+
+{% block content %}
+<form id="reservationForm" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <small id="numPeopleHint" style="color: gray;">Note: Maximum number of people is 5</small>
+
+    <p id="reservationInfo"></p>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const numPeopleInput = document.getElementById('id_num_people');
+
+    numPeopleInput.addEventListener('input', function () {
+        if (!Number.isInteger(Number(numPeopleInput.value)) || numPeopleInput.value > 5) {
+            alert('Please enter a whole number between 1 and 5.');
+            numPeopleInput.value = numPeopleInput.value > 5 ? 5 : Math.floor(numPeopleInput.value);
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const galleryField = document.getElementById('id_gallery');
+    const orderDateField = document.getElementById('id_order_date');
+    const reservationInfo = document.getElementById('reservationInfo');
+
+    function updateReservationInfo() {
+        const galleryName = galleryField.options[galleryField.selectedIndex].text; 
+        const orderDate = orderDateField.value;
+
+        if (galleryName && orderDate) {
+            fetch(`/get_reservations_count/?gallery_name=${encodeURIComponent(galleryName)}&order_date=${orderDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        reservationInfo.textContent = 'Error loading reservation data.';
+                    } else {
+                        reservationInfo.textContent = `Number of reservations for the selected date: ${data.current_reservations} / ${data.capacity}`;
+                    }
+                });
+        }
+    }
+
+    galleryField.addEventListener('change', updateReservationInfo);
+    orderDateField.addEventListener('change', updateReservationInfo);
+});
+</script>
+{% endblock %}
