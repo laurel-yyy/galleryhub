@@ -239,19 +239,27 @@ def create_reservation(request):
             order_date = form.cleaned_data['order_date']
             num_people = form.cleaned_data['num_people']
 
-            current_reservations = ReservationOrder.objects.filter(
-                gallery=gallery,
+            existing_reservation = ReservationOrder.objects.filter(
+                user_name=request.user,
                 order_date=order_date
-            ).aggregate(total=Sum('num_people'))['total'] or 0
-            capacity = gallery.visitor_capacity
+            ).exists()
 
-            if current_reservations+num_people > capacity:
-                form.add_error(None, "Reservation Fail")
+            if existing_reservation:
+                form.add_error('order_date', 'You already have a reservation on this date.')
             else:
-                reservation = form.save(commit=False)
-                reservation.user_name = request.user
-                reservation.save()
-                return redirect('my_reservation')    
+                current_reservations = ReservationOrder.objects.filter(
+                    gallery=gallery,
+                    order_date=order_date
+                ).aggregate(total=Sum('num_people'))['total'] or 0
+                capacity = gallery.visitor_capacity
+
+                if current_reservations + num_people > capacity:
+                    form.add_error(None, "Reservation Fail")
+                else:
+                    reservation = form.save(commit=False)
+                    reservation.user_name = request.user
+                    reservation.save()
+                    return redirect('my_reservation')    
         
     else:
         form = ReservationOrderForm()
@@ -262,13 +270,21 @@ def create_reservation(request):
         'capacity':capacity})
 
 
-@login_required
 def view_my_reservation(request):
     """
     Displays the logged-in user's reservations, separated by finished and upcoming ones,
-    sorted by order date.
+    sorted by order date, with an option to delete upcoming reservations.
     """
     today = date.today()
+
+    if request.method == 'POST' and 'delete_reservation_id' in request.POST:
+        
+        reservation_id = request.POST.get('delete_reservation_id')
+        reservation = get_object_or_404(ReservationOrder, id=reservation_id, user_name=request.user)
+        if reservation.order_date > today:
+            reservation.delete()
+            messages.success(request, 'Reservation deleted successfully.')
+            return redirect('my_reservation')
 
     todays_reservations = ReservationOrder.objects.filter(
         user_name=request.user,
