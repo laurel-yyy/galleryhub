@@ -202,15 +202,25 @@ def add_styletag_view(request):
 
 
 def artwork(request, artwork_title):
-    artworks = Artwork.objects.all().filter(title=artwork_title)
+    artwork = get_object_or_404(Artwork, title=artwork_title)
     template = loader.get_template('artwork.html')
-    if len(artworks) == 0:
-        return
-    else:
-        context = {
-            'artwork':artworks[0],
-        }
-        return HttpResponse(template.render(context,request))
+    context = {
+        'artwork': artwork,
+    }
+    return HttpResponse(template.render(context, request))
+
+def styletag_detail(request, tag_name):
+    # Get the style tag by its tag_name
+    style_tag = get_object_or_404(StyleTag, tag_name=tag_name)
+    
+    # Retrieve all artworks associated with this style tag
+    artworks = style_tag.artwork.all()
+
+    # Render a template that lists all artworks with this style tag
+    return render(request, 'styletag_detail.html', {
+        'style_tag': style_tag,
+        'artworks': artworks,
+    })
 
     
 def author(request, author_name):

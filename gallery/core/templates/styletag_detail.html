@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artworks with Style Tag: {{ style_tag.tag_name }}</title>
+</head>
+<body>
+    <h1>Artworks with the Style Tag: {{ style_tag.tag_name }}</h1>
+
+    <ul>
+        {% for artwork in artworks %}
+            <li>
+                
+                <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" height="200">
+                
+
+                <a href="{% url 'artwork' artwork.title %}">{{ artwork.title }}</a> - {{ artwork.author }}
+            </li>
+        {% empty %}
+            <li>No artworks found for this style tag.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>
