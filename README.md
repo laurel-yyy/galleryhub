@@ -1,91 +1,124 @@
-# 非正式readme 
+# Galley-Hub
 
-## 1. Start
-### 1.1 git 
-https://docs.github.com/en/get-started/getting-started-with-git/set-up-git 
+This project is an art gallery website based on `python3.8` and `Django4.0`. Visitors can browse gallery information and make reservations.  Administrators can manage galleries, artwork and user reservations.
 
-如果没下就搞一下Git和ssh
-（另外感觉网上这种教程比较多
+## Contents
 
-### 1.2 导入环境
-我们最好统一环境，不然后面可能有麻烦，可能会直接白干
+[Main Features](#main-features) 
 
+[Installation and Setup](#installation-and-setup) 
 
-conda管理环境比较方便，而且老师讲了conda那就用conda把（）
-
-miniconda下载 https://blog.csdn.net/ming12131342/article/details/140233867
-
-要配的环境基本就是conda python3.6 + django
-
-可以直接导入我的
-
-按照下面这个顺序
-```
-git init
-git clone git@github.com:laurel-yyy/galleryhub.git
-```
-进入有environment.yml的目录，创建一个叫django_env的conda环境
-```
-conda env create -f environment.yml -n django_env
-```
-另外如果后面需要导出conda环境可以用
-```
-conda env export > environment.yml
-```
-激活环境试一下能不能正常使用
-```
-conda activate django_env
-```
-进入有manage.py的目录
-```
-python manage.py runserver
-```
-能看到那个绿绿的logo就是成功了。
-
-然后随便创建一个文件，比如去template目录下创建一个kjahsdkj.html，试一下git push能不能正常用
-
-```
-git add <文件名>
-git commit -m '随便写什么'
-git push origin main
-```
-
-### 1.3 dependency（持续更新）
-    django
-    Pillow
+[Quick Demo ](#quick-demo) ❌ TBC  
 
 
-## 2. 开发注意事项
 
-### 2.1 格式
-尽量PEP-8，不太离谱就行其实（）复杂的函数写注释，和已有example风格尽量统一。
+## Main Features
 
-### 2.2 进度
-基础功能ylj推荐顺序是
-+ 数据库模型
-+ 用户管理员登录登出
-+ 开发界面
-+ 交互功能实现
-+ 完善权限
-+ 前端美化
+- **User registration and login**
 
-后面可以根据个人感觉随便加。
+  Users can create an account and securely log in to access personalized features such as reservations and detailed artwork information.
 
-前端写最简单的就可以了，最后再改。但是除了登录注册别的都需要继承base。
+- **Browse gallery information**
 
-加了功能之后要把接口记录在
- [UML共享](https://lucid.app/lucidchart/dc818aea-4b89-472b-a969-b0ae45f560bb/edit?view_items=3cpbG59Okvto&invitationId=inv_ae39550e-00ba-408d-937b-35542d821cc8)
- 这里，黑色是设计的彩色是已经完成的。
+  Users can explore galleries and view detailed information about the artworks displayed in each gallery. For each artwork, users can:
+
+  - View its detailed information, including description and associated styles.
+  - Discover similar artworks based on shared styles.
+  - See other artworks by the same author.
+
+- **Reservation system**
+
+  Users can make reservations to visit galleries, with the following restrictions:
+
+  - Each user has a daily limit on the number of people they can include in their reservation.
+  - Each gallery has a visitor capacity, ensuring the venue does not become overcrowded.
+
+- **Admin Management**
+
+  Administrators can manage galleries, artworks, styles, and author information. Admin-specific features include:
+
+  - Editing gallery details, such as name and visitor capacity.
+
+  - Updating artwork information, including changing the gallery where an artwork is displayed.
+
+  - Modifying or assigning styles and authors to specific artworks.
+
+  - Adding, deleting, or updating styles and authors in the system.
+
+  - Admin privileges are assigned and managed exclusively by the root user.
 
 
-### 2.3 测试注意事项
-现在已经加了几个测试用user。
-alice bob root， alice管理员，bob是普通游客，root是超级管理员，密码全是123456
 
-也建好了四个馆，画，tag，作者 example
+## Installation and Setup
 
-最好不要动model和setting里面user/auth相关。这个migrate有时候很智障，可能它识别不出来。
+You can install and run the project in one of the following ways: setting up the environment with Docker. or using `pip` to install dependencies
 
-翻车了也没关系，db.sqlite删了重新手动创建以上instance就行了。(^_^)
+**Option 1: Install with Docker (Recommended)**
 
-另外，最好做完一小步就检查一下是不是对的，django 不好 debug。 gpt也会胡说八道。
+1. **Clone the repository or unzip the code package**
+
+   ```
+   git clone https://github.com/laurel-yyy/galleryhub.git
+   ```
+
+2. **Build Docker image** 
+
+   ```
+   cd galleryhub/gallery
+   ```
+
+   ```
+   docker build -t galleryhub_env .
+   ```
+
+3. **Run the Docker container**
+
+   ```
+   docker run -d -p 8000:8000 - galleryhub_env
+   ```
+
+4. **Access the application** Open a browser and visit `http://localhost:8000/`.
+
+
+
+**Option 2: Install with pip**
+
+1. **Clone the repository or unzip the code package**
+
+   ```
+   git clone https://github.com/laurel-yyy/galleryhub.git
+   ```
+
+2. **Set up virtual environment**
+
+   ```
+   python3 -m venv env
+   source env/bin/activate
+   ```
+
+3. **Install dependencies**
+
+   ```
+   pip install django pillow
+   ```
+
+4. **Run Server**
+
+   ```
+   python manage.py runserver
+   ```
+
+5. **Access the application** Open a browser and visit `http://127.0.0.1:8000/`.
+
+
+
+## Quick Demo
+
+
+
+
+
+
+
+
+
