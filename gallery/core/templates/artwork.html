@@ -23,5 +23,15 @@ p {
 <p>Arkwork Description: {{ artwork.description }}<p>
 <p>Year: {{ artwork.year }}<p>
 
+    <h3>Style Tags:</h3>
+    <ul>
+        {% for tag in artwork.styletag.all %}
+            <li><a href="{% url 'styletag_detail' tag.tag_name %}">{{ tag.tag_name }}</a></li>
+        {% empty %}
+            <li>No style tags available for this artwork.</li>
+        {% endfor %}
+    </ul>
+    
+
 </body>
 </html>

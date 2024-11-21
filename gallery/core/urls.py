@@ -22,6 +22,7 @@ urlpatterns = [
     path('manage/gallery/<str:gallery_name>/artwork/<str:artwork_title>/', views.edit_artwork_view, name='edit_artwork'),
     path('manage/author/add/', views.add_author_view, name='add_author'),
     path('manage/styletag/add/', views.add_styletag_view, name='add_styletag'),
+    path('styletag/<str:tag_name>/', views.styletag_detail, name='styletag_detail'),
     path('media/artwork?<str:artwork_title>', views.artwork, name='artwork'),
     path('media/author?<str:author_name>', views.author, name='author'),
 
