@@ -14,6 +14,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('page/', views.different_view_example, name="page" ),
     path('museum/', views.museum, name="museum" ),
+    path('gallery/<str:gallery_name>/', views.gallery, name='<string:gallery_name>' ),
     
     # path for admin pages
     path('manage/gallery/<str:gallery_name>/', views.edit_gallery, name='edit_gallery'),
