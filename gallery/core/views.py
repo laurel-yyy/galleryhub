@@ -8,6 +8,7 @@ from django.forms import modelformset_factory
 from django.db import IntegrityError
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.db import transaction
 
 from .models import Gallery, Artwork, Author, StyleTag, ReservationOrder
 from .forms import CustomUserCreationForm, GalleryForm, ArtworkForm, ArtworkFormSet, AuthorForm, StyleTagForm, ReservationOrderForm
@@ -255,27 +256,30 @@ def create_reservation(request):
             order_date = form.cleaned_data['order_date']
             num_people = form.cleaned_data['num_people']
 
-            existing_reservation = ReservationOrder.objects.filter(
-                user_name=request.user,
-                order_date=order_date
-            ).exists()
+            with transaction.atomic():
+                gallery = Gallery.objects.select_for_update().get(gallery_name=gallery.gallery_name)
 
-            if existing_reservation:
-                form.add_error('order_date', 'You already have a reservation on this date.')
-            else:
-                current_reservations = ReservationOrder.objects.filter(
-                    gallery=gallery,
+                existing_reservation = ReservationOrder.objects.filter(
+                    user_name=request.user,
                     order_date=order_date
-                ).aggregate(total=Sum('num_people'))['total'] or 0
-                capacity = gallery.visitor_capacity
+                ).exists()
 
-                if current_reservations + num_people > capacity:
-                    form.add_error(None, "Reservation Fail")
+                if existing_reservation:
+                    form.add_error('order_date', 'You already have a reservation on this date.')
                 else:
-                    reservation = form.save(commit=False)
-                    reservation.user_name = request.user
-                    reservation.save()
-                    return redirect('my_reservation')  
+                    current_reservations = ReservationOrder.objects.filter(
+                        gallery=gallery,
+                        order_date=order_date
+                    ).aggregate(total=Sum('num_people'))['total'] or 0
+                    capacity = gallery.visitor_capacity
+
+                    if current_reservations + num_people > capacity:
+                        form.add_error(None, "Reservation Fail")
+                    else:
+                        reservation = form.save(commit=False)
+                        reservation.user_name = request.user
+                        reservation.save()
+                        return redirect('my_reservation')  
         
     else:
         form = ReservationOrderForm()
