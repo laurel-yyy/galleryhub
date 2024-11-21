@@ -367,3 +367,32 @@ footer {
     }
   }
 }
+
+.gallery {
+  padding: 0 20px;
+
+  .artworkContainer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    .artworkItem {
+      display: flex;
+      column-gap: 30px;
+      align-items: center;
+
+      img {
+        width: 700px;
+        height: 500px;
+        object-fit: cover;
+      }
+
+      .description {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+      }
+    }
+  }
+}

@@ -12,7 +12,11 @@
         class="galleryImage"
       />
       <div class="description">
-        <h3>{{ gallery.gallery_name }}</h3>
+        <h3>
+          <a href="/gallery/{{gallery.gallery_name}}"
+            >{{ gallery.gallery_name }}</a
+          >
+        </h3>
         <p>{{ gallery.description }}</p>
       </div>
     </div>

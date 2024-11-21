@@ -29,6 +29,12 @@ def museum(request):
     galleries = Gallery.objects.all()
     return render(request, 'museum.html', {'galleries': galleries} )
 
+# add the view for a specific gallery
+def gallery(request, gallery_name):
+    gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
+    artworks = Artwork.objects.filter(gallery=gallery)
+    return render(request, 'gallery.html', {'gallery': gallery, 'artworks': artworks})
+
 
 def register(request):
     """
