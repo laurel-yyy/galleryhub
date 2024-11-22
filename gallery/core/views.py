@@ -34,6 +34,12 @@ def museum(request):
 def gallery(request, gallery_name):
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
     artworks = Artwork.objects.filter(gallery=gallery)
+
+    print(f"Gallery name: {gallery.gallery_name}")
+    print("Artworks:")
+    for artwork in artworks:
+        print(f"- {artwork.title}")
+        
     return render(request, 'gallery.html', {'gallery': gallery, 'artworks': artworks})
 
 
@@ -210,11 +216,10 @@ def add_styletag_view(request):
 
 def artwork(request, artwork_title):
     artwork = get_object_or_404(Artwork, title=artwork_title)
-    template = loader.get_template('artwork.html')
     context = {
         'artwork': artwork,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'artwork.html', context)
 
 def styletag_detail(request, tag_name):
     # Get the style tag by its tag_name
@@ -231,17 +236,19 @@ def styletag_detail(request, tag_name):
 
     
 def author(request, author_name):
-    author_found = Author.objects.all().filter(name=author_name)
-    artworks = Artwork.objects.all().filter(author=author_name) 
-    template = loader.get_template('author.html')
-    if len(author_found) == 0:
-        return
-    else:
-        context = {
-            'author':author_found[0],
-            'artworks':artworks,
-        }
-        return HttpResponse(template.render(context,request))
+
+    try:
+        author_found = Author.objects.get(name=author_name)
+    except Author.DoesNotExist:
+        return HttpResponse("Author not found", status=404)
+
+    artworks = Artwork.objects.filter(author=author_found)
+
+    context = {
+        'author': author_found,
+        'artworks': artworks,
+    }
+    return render(request, 'author.html', context)
 
 
 @login_required

@@ -16,10 +16,10 @@ urlpatterns = [
     
     # path for gallery browse
     path('museum/', views.museum, name="museum" ),
-    path('gallery/<str:gallery_name>/', views.gallery, name='<string:gallery_name>' ),
+    path('gallery/<str:gallery_name>/', views.gallery, name='gallery' ),
     path('styletag/<str:tag_name>/', views.styletag_detail, name='styletag_detail'),
-    path('media/artwork?<str:artwork_title>', views.artwork, name='artwork'),
-    path('media/author?<str:author_name>', views.author, name='author'),
+    path('gallery/<str:gallery_name>/<str:artwork_title>/', views.artwork, name='artwork'),
+    path('author/<str:author_name>/', views.author, name='author'),
 
     # path for admin pages
     path('manage/gallery/<str:gallery_name>/', views.edit_gallery, name='edit_gallery'),
