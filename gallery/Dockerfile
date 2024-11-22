@@ -17,7 +17,7 @@ RUN /app/venv/bin/pip install --upgrade pip
 COPY . .
 
 
-RUN /app/venv/bin/pip install django pillow
+RUN /app/venv/bin/pip install django pillow django-widget-tweaks
 
 
 EXPOSE 8000

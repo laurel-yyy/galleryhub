@@ -323,7 +323,7 @@ def view_my_reservation(request):
     ).order_by('order_date')
 
     upcoming_paginator = Paginator(upcoming_reservations_list, 3)
-    finished_paginator = Paginator(finished_reservations_list, 3)
+    finished_paginator = Paginator(finished_reservations_list, 5)
 
     upcoming_page_number = request.GET.get('upcoming_page')
     finished_page_number = request.GET.get('finished_page')
