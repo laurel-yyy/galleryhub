@@ -1,0 +1,57 @@
+<header>
+    <div class="px-3 py-2 bg-purple text-white">
+      <div>
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 text-white text-decoration-none">
+              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                <use xlink:href="#paint"></use>
+              </svg>
+              <h1 class="mb-0 p-2" style="font-family: 'Poppins', sans-serif; font-weight: 200;">GalleryHub</h1>
+            </a>
+
+            <ul class="nav my-2 justify-content-center my-md-0 text-small ms-auto">
+            <li>
+              <a href="/" class="nav-link text-white hover-text-secondary">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"/></svg>
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'museum' %}" class="nav-link text-white hover-text-secondary">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#bank"/></svg>
+                Museum
+              </a>
+            </li>
+            <li>
+                <a href="{% url 'create_reservation' %}" class="nav-link text-white hover-text-secondary">
+                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#addreservation"/></svg>
+                  Reserve
+                </a>
+              </li>
+            <li>
+              <a href="{% url 'my_reservation' %}" class="nav-link text-white hover-text-secondary">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
+                Orders
+              </a>
+            </li>
+            {% if not user.is_authenticated %}
+            <li>
+              <a href="{% url 'login' %}" class="nav-link text-white hover-text-secondary">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#login"/></svg>
+                Login
+              </a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'logout' %}" class="nav-link text-white hover-text-secondary">
+                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#logout"/></svg>
+                  Logout
+                </a>
+            </li>
+            {% endif %}
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>

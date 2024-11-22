@@ -1,30 +1,94 @@
 {% load static %}
+{% load widget_tweaks %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-  </head>
-  <body>
-    <div class="loginHeader"><h1>Gallery of Art</h1></div>
-    <div class="loginContainer">
-      <h2>
-        Log in to your <br />
-        account
-      </h2>
-      <form method="post" class="loginForm">
-        {% csrf_token %} {{ form.as_p }}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Signin</title>
 
-        <div class="btnContainer">
-          <button class="loginBtn" type="submit">Login</button>
-          <a class="singUpLink" href="{% url 'register' %}">
-            <button type="button" class="signUpBtn">Sign up</button>
-          </a>
-        </div>
-      </form>
-      <div></div>
+
+    <!-- Bootstrap core CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .form-signin {
+            max-width: 600px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .center-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-floating {
+        margin-bottom: 1rem; 
+        }
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      .btn-purple {
+            background-color: #6f42c1;
+            color: white;
+            border-color: #6f42c1;
+        }
+
+      .btn-purple:hover {
+            background-color: #5a3799; 
+            border-color: #5a3799;
+        }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+  <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    {% include 'includes/svg_icons.html' %}
+    
+<main class="form-signin">
+  <form method="post" class="form-signin">
+    {% csrf_token %}
+    <img class="mb-4" src="{% static 'svg/logo.svg' %}" alt="Logo" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+        {{ form.username|add_class:"form-control" }}
+        <label for="id_username">User Name</label>
     </div>
+
+    <div class="form-floating">
+        {{ form.password|add_class:"form-control" }}
+        <label for="id_password">Password</label>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-lg btn-purple flex-grow-1 me-2" type="submit">Sign in</button>
+      <a class="btn btn-lg btn-secondary flex-grow-1 ms-2" href="{% url 'register' %}">Sign up</a>
+    </div>
+
+    <p class="mt-5 mb-3 text-muted">&copy; 2024–2025</p>
+</form>
+
+</main>
+
   </body>
 </html>
