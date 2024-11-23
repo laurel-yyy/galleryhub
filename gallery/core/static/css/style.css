@@ -141,7 +141,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f8f8f8; /* 淡紫色背景 */
+    background-color: #f8f8f8; 
     padding: 20px;
 }
 .galleryContainer {
@@ -153,12 +153,12 @@
 }
 .galleryItem {
     display: flex;
-    background-color: #e6e6fa; /* 薰衣草紫 */
+    background-color: #e6e6fa; 
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    height: calc(45vh - 35px); /* 调整高度 */
+    height: calc(45vh - 35px); 
     position: relative;
 }
 .galleryItem:hover {
@@ -231,4 +231,52 @@
         width: 100%;
     }
 }
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: #4c1370;  
+    box-shadow: 0 0 0 0.25rem rgba(76, 19, 112, 0.25); 
+    outline: 0;  
+}
+
+.btn:focus,
+.btn-check:focus + .btn,
+.page-link:focus {
+    box-shadow: 0 0 0 0.25rem rgba(76, 19, 112, 0.25);
+}
+
+.form-check-input:checked {
+    background-color: #4c1370;
+    border-color: #4c1370;
+}
+
+.input-group .form-control:focus {
+    z-index: 3;
+}
+
+.btn-outline-success:hover {
+    background-color: #198754;  
+    color: white;
+    border-color: #198754;
+}
+
+.same-size-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    min-width: 160px;  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; 
+}
+
+
+@media (max-width: 576px) {
+    .same-size-btn {
+        min-width: 140px;
+        padding: 0.7rem 1.5rem;
+    }
+}
+
 

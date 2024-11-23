@@ -1,11 +1,138 @@
 {% extends 'base.html' %}
-{% load static %} 
+{% load static %}
+{% load widget_tweaks %}
+
 {% block title %}Add New Artwork for {{ gallery.gallery_name }}{% endblock %}
 
 {% block content %}
-    <form action="{% url 'add_artwork' gallery.gallery_name %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Artwork</button>
-    </form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary">
+                    <h2 class="text-white h4 mb-0">Add New Artwork to {{ gallery.gallery_name }}</h2>
+                </div>
+                
+                <div class="card-body">
+                    <form action="{% url 'add_artwork' gallery.gallery_name %}" 
+                          method="POST" 
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% for field in form %}
+                            <div class="mb-4">
+                                <label for="{{ field.id_for_label }}" class="form-label fw-bold">
+                                    {{ field.label }}
+                                </label>
+                                
+                                {% if field.name == 'styletags' %}
+                                    <div class="style-tags-container">
+                                        {% for checkbox in field %}
+                                            <div class="form-check">
+                                                {{ checkbox.tag }}
+                                                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                    {{ checkbox.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% elif field.name == 'image' %}
+                                    <div class="custom-file">
+                                        {% render_field field class="form-control" %}
+                                    </div>
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+                                {% endif %}
+                                
+                                {% if field.help_text %}
+                                    <div class="form-text text-muted small">
+                                        {{ field.help_text }}
+                                    </div>
+                                {% endif %}
+                                
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="mt-4 d-flex justify-content-between align-items-center">
+                            <a href="{% url 'gallery' gallery.gallery_name %}" class="btn btn-outline-secondary same-size-btn">
+                                <i class="bi bi-arrow-left"></i> Back
+                            </a>
+                            <button type="submit" class="btn btn-outline-success btn-lg same-size-btn">
+                                <i class="bi bi-plus-circle"></i> Add Artwork
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+.style-tags-container {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+}
+
+.form-check {
+    margin-bottom: 8px;
+}
+
+.form-check-label {
+    margin-left: 8px;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.form-control:focus {
+    border-color: #4c1370;
+    box-shadow: 0 0 0 0.25rem rgba(76, 19, 112, 0.25);
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+.custom-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.form-label {
+    color: #495057;
+}
+.same-size-btn {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    min-width: 160px;  
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;  
+}
+
+
+@media (max-width: 576px) {
+    .same-size-btn {
+        min-width: 140px;
+        padding: 0.7rem 1.5rem;
+    }
+}
+</style>
 {% endblock %}

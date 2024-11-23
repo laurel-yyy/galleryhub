@@ -1,38 +1,107 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}{{ artwork.title }} - GalleryOfOurOwn{% endblock %}
 
 {% block content %}
-<form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ artwork_form.as_p }}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-secondary">
+                    <h2 class="card-title h4 text-white mb-0">Edit {{ artwork.title }}</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" 
+                          method="POST" 
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% for field in artwork_form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">
+                                    {{ field.label }}
+                                </label>
+                                
+                                {% if field.name == 'styletags' %}
+                                    <div class="style-tags-container">
+                                        {% for checkbox in field %}
+                                            <div class="form-check">
+                                                {{ checkbox.tag }}
+                                                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                                    {{ checkbox.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {% render_field field class="form-control" %}
+                                {% endif %}
+                                
+                                {% if field.help_text %}
+                                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
 
-    <button type="submit">Save Changes</button>
-</form>
-<form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" method="POST" style="margin-top: 20px;">
-    {% csrf_token %}
-    <input type="hidden" name="delete_artwork" value="true">
-    <button type="submit" onclick="return confirm('Are you sure you want to delete{{ artwork.title }}')" 
-            style="background-color:red; color: white;">
-        Delete
-    </button>
-</form>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
 
+            <!-- Delete Form -->
+            <form action="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" 
+                  method="POST" 
+                  class="mt-4">
+                {% csrf_token %}
+                <input type="hidden" name="delete_artwork" value="true">
+                <button type="submit" 
+                        onclick="return confirm('Are you sure you want to delete {{ artwork.title }}')"
+                        class="btn btn-danger">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <style>
-    .author-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
 
-    .author-card {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 10px;
-        width: 200px;
-        background-color: #fff;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+.style-tags-container {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.form-check {
+    margin-bottom: 8px;
+}
+
+.form-check-label {
+    margin-left: 8px;
+}
+
+.btn-primary {
+    background-color: #4c1370;
+    border-color: #4c1370;
+}
+
+.btn-primary:hover {
+    background-color: #3a0f56;
+    border-color: #3a0f56;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #bb2d3b;
+}
 </style>
 {% endblock %}
