@@ -74,7 +74,7 @@ You can install and run the project in one of the following ways: setting up the
 3. **Run the Docker container**
 
    ```
-   docker run -d -p 8000:8000 - galleryhub_env
+   docker run -d -p 8000:8000 galleryhub_env
    ```
 
 4. **Access the application** Open a browser and visit `http://localhost:8000/`.
