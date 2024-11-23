@@ -30,6 +30,9 @@ class Gallery(models.Model):
     def __str__(self):
         return self.gallery_name
     
+    def artwork_list(self):
+        return self.artwork_set.all()
+    
     def get_comments(self):
         return Comment.objects.filter(
             content_type=ContentType.objects.get_for_model(self),

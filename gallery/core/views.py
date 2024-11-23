@@ -31,17 +31,23 @@ def museum(request):
     return render(request, 'museum.html', {'galleries': galleries} )
 
 # add the view for a specific gallery
-def gallery(request, gallery_name):
-    gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
-    artworks = Artwork.objects.filter(gallery=gallery)
+# def gallery_view(request, gallery_name):
+#     gallery = Gallery.objects.get(gallery_name=gallery_name)
+#     artworks = Artwork.objects.filter(gallery=gallery)
+#     return render(request, 'gallery.html', {
+#         'gallery': gallery,
+#         'artworks': artworks
+#     })
 
-    print(f"Gallery name: {gallery.gallery_name}")
-    print("Artworks:")
-    for artwork in artworks:
-        print(f"- {artwork.title}")
-        
-    return render(request, 'gallery.html', {'gallery': gallery, 'artworks': artworks})
-
+def gallery_view(request, gallery_name):
+    gallery = Gallery.objects.get(gallery_name=gallery_name)
+    #gallery_artworks = Artwork.objects.filter(gallery=gallery)
+    gallery_artworks = Artwork.objects.filter(gallery=gallery).select_related('gallery')
+    context = {
+        'gallery': gallery,
+        'artworks': gallery_artworks,
+    }
+    return render(request, 'gallery.html', context)
 
 def register(request):
     """

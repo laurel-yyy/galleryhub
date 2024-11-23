@@ -15,8 +15,8 @@ urlpatterns = [
     path('page/', views.different_view_example, name="page" ),
     
     # path for gallery browse
-    path('museum/', views.museum, name="museum" ),
-    path('gallery/<str:gallery_name>/', views.gallery, name='gallery' ),
+    path('museum/', views.museum, name='museum'),
+    path('gallery/<str:gallery_name>/', views.gallery_view, name='gallery'),
     path('styletag/<str:tag_name>/', views.styletag_detail, name='styletag_detail'),
     path('gallery/<str:gallery_name>/<str:artwork_title>/', views.artwork, name='artwork'),
     path('author/<str:author_name>/', views.author, name='author'),

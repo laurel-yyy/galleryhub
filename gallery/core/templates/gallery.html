@@ -1,7 +1,13 @@
-{% extends 'base.html' %} {% load static %} {% block title %} Gallery -
-GalleryHub {% endblock %} {% block content %}
-
-<!-- <div class="gallery">
+{% extends 'base.html' %} 
+<!-- {% load static %}  -->
+{% block content %}
+<!-- <div class="container">
+  <h1>{{ gallery.gallery_name }}</h1>
+  <p>{{ gallery.description }}</p>
+  
+  <a href="{% url 'museum' %}">Back to Museum</a>
+</div>
+<div class="gallery">
   <h2>{{ gallery.gallery_name }}</h2>
   <div class="intro">
     <img
@@ -24,58 +30,124 @@ GalleryHub {% endblock %} {% block content %}
     {% endfor %}
   </div>
 </div> -->
+<!-- <div class="container">
+  <h1>{{ gallery.gallery_name }}</h1>
+  <p>{{ gallery.description }}</p>
+  
+  {% if gallery.image %}
+  <div class="mb-4">
+      <img src="{{ gallery.image.url }}" alt="{{ gallery.gallery_name }}" class="img-fluid">
+  </div>
+  {% endif %}
+
+  <div class="row">
+      {% for artwork in artworks %}
+          <div class="col-md-4 mb-4">
+              <div class="card">
+                  {% if artwork.image %}
+                      <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="card-img-top">
+                  {% endif %}
+                  <div class="card-body">
+                      <h5>{{ artwork.title }}</h5>
+                  </div>
+              </div>
+          </div>
+      {% endfor %}
+  </div>
+
+  <a href="{% url 'museum' %}" class="btn btn-primary">Back to Museum</a>
+</div> -->
 
 
-<section class="py-5   position-relative" style="background-image: url('{{ gallery.image.url }}'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative;">
-  <div class="position-absolute top-0 start-0 w-100 h-100" style="
-    background-image: url('{{ gallery.image.url }}');
-    background-size: cover;
-    background-position: center;
-    filter: blur(12px) brightness(0.8) opacity(0.8);
-    position: absolute;
-    z-index: 1;
-  "></div>
-  <div class="position-relative" style="z-index: 2;">
-    <div class="row py-lg-5">
-      <div class="col-lg-10 col-md-8 mx-auto">
-        <h1 class="fw-bold text-white">{{ gallery.gallery_name }}</h1>
-        <p class="lead text-white drop-shadow-md">{{ gallery.description }}</p>
-        <p>
-          <a href="{% url 'create_reservation' %}" class="btn btn-lg bg-purple text-white view-more-btn larger-btn">
-            Visit Now !
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-airplane" viewBox="0 0 16 16">
-              <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849m.894.448C7.111 2.02 7 2.569 7 3v4a.5.5 0 0 1-.276.447l-5.448 2.724a.5.5 0 0 0-.276.447v.792l5.418-.903a.5.5 0 0 1 .575.41l.5 3a.5.5 0 0 1-.14.437L6.708 15h2.586l-.647-.646a.5.5 0 0 1-.14-.436l.5-3a.5.5 0 0 1 .576-.411L15 11.41v-.792a.5.5 0 0 0-.276-.447L9.276 7.447A.5.5 0 0 1 9 7V3c0-.432-.11-.979-.322-1.401C8.458 1.159 8.213 1 8 1s-.458.158-.678.599"/>
-            </svg>
-          </a>
-        </p>
+<div class="d-flex flex-column">
+  <section class="hero-section position-relative vw-100" style="height: 70vh;">
+    <div style="
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100%;
+      background-image: url('{{ gallery.image.url }}');
+      background-size: cover;
+      background-position: center;
+      filter: blur(12px) brightness(0.8) opacity(0.8);
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+    "></div>
+    
+    <div class="position-relative h-100 d-flex align-items-center" style="z-index: 2;">
+      <div class="w-100">
+        <div class="row mx-0">
+          <div class="col-lg-8 offset-lg-2">
+            <div style="
+              background-color: rgba(0, 0, 0, 0.5); 
+              padding: 2rem;
+              border-radius: 8px;
+              backdrop-filter: blur(10px);
+              width: 100%;
+            ">
+              <h1 class="display-2 text-white fw-bold mb-2">{{ gallery.gallery_name }}</h1>
+              <p class="lead text-white" style="max-width: 100%;">{{ gallery.description }}</p>
+              <a href="{% url 'create_reservation' %}" class="btn btn-lg bg-purple text-white view-more-btn larger-btn">
+                Visit Now !
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-airplane" viewBox="0 0 16 16">
+                  <path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849m.894.448C7.111 2.02 7 2.569 7 3v4a.5.5 0 0 1-.276.447l-5.448 2.724a.5.5 0 0 0-.276.447v.792l5.418-.903a.5.5 0 0 1 .575.41l.5 3a.5.5 0 0 1-.14.437L6.708 15h2.586l-.647-.646a.5.5 0 0 1-.14-.436l.5-3a.5.5 0 0 1 .576-.411L15 11.41v-.792a.5.5 0 0 0-.276-.447L9.276 7.447A.5.5 0 0 1 9 7V3c0-.432-.11-.979-.322-1.401C8.458 1.159 8.213 1 8 1s-.458.158-.678.599"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 </section>
-<!-- <div class="album py-5 bg-light">
+
+<section class="artworks-section py-5">
   <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <h2 class="text-center mb-5">Featured Artworks</h2>
+    <div class="row g-4">
       {% for artwork in artworks %}
-      <div class="col">
-        <div class="card shadow-sm">
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100" style="height: 450px !important;">
+          {% if artwork.image %}
           <img 
             src="{{ artwork.image.url }}" 
-            alt="{{ artwork.title }}" 
-            class="card-img-top" 
-            style="height: 225px; object-fit: cover;"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{ artwork.title }}</h5>
-            <p class="card-text">{{ artwork.description|truncatechars:100 }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <a href="{% url 'artwork' artwork.artwork_title %}" class="btn btn-sm btn-outline-secondary">View</a>
-              <small class="text-muted">{{ artwork.created_at|date:"M d, Y" }}</small>
-            </div>
+            alt="{{ artwork.title }}"
+            class="card-img-top"
+            style="height: 250px; object-fit: cover;"
+          >
+          {% endif %}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title" style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            ">{{ artwork.title }}</h5>
+            {% if artwork.description %}
+            <p class="card-text" style="
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+              font-size: 0.9rem;
+              height: 4.2em;
+            ">{{ artwork.description }}</p>
+            {% endif %}
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
   </div>
-</div> -->
+</section>
+
+<style>
+  .card {
+    transition: transform 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+</style>
+
 {% endblock %}
