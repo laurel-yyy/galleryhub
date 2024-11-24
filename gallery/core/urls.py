@@ -18,7 +18,7 @@ urlpatterns = [
     path('gallery/museum/', views.museum, name='museum'),
     path('gallery/<str:gallery_name>/', views.gallery_view, name='gallery'),
     path('gallery/styletag/<str:tag_name>/', views.styletag_detail, name='styletag_detail'),
-    path('gallery/<str:artwork_title>/', views.artwork, name='artwork'),
+    path('gallery/artwork/<str:artwork_title>/', views.artwork, name='artwork'),
     path('gallery/author/<str:author_name>/', views.author, name='author'),
 
     # path for admin pages

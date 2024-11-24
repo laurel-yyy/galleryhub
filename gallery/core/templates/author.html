@@ -1,29 +1,93 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-h1{
-    color: black;
-    font-family: Times;
-    font-size: 300%
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Author{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="card border-0 shadow-sm mb-5" 
+         style="background: linear-gradient(to right bottom, #f2edf5, #fdfdfd);">
+      <div class="card-body p-4 p-md-5">
+        <h1 class="display-4 mb-4" style="color: #4a148c; font-weight: 600;">
+          {{ author.name }}
+        </h1>
+        <div class="row">
+          <div class="col-md-8">
+            <p class="lead text-muted" style="line-height: 1.8;">
+              {{ author.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <section class="artworks-section">
+        <div class="container px-0">
+          <h2 class="text-center mb-5">Featured Works</h2>
+          <div class="row g-4">
+            {% for artwork in artworks %}
+            <div class="col-md-6 col-lg-3">
+              <div class="card h-100" style="height: 450px !important;">
+                {% if artwork.image %}
+                <img 
+                  src="{{ artwork.image.url }}"
+                  alt="{{ artwork.title }}"
+                  class="card-img-top"
+                  style="height: 250px; object-fit: cover;"
+                >
+                {% endif %}
+                <div class="card-body d-flex flex-column justify-content-between">
+                  <div>
+                    <h5 class="card-title" style="
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    ">{{ artwork.title }}</h5>
+                    {% if artwork.description %}
+                    <p class="card-text" style="
+                      display: -webkit-box;
+                      -webkit-line-clamp: 3;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      font-size: 0.9rem;
+                      height: 4.2em;
+                    ">{{ artwork.description }}</p>
+                    {% endif %}
+                  </div>
+                  <div class="view-more-btn-container" style="margin-bottom: 0.6rem;">
+                    <a href="{% url 'artwork' artwork_title=artwork.title %}" class="btn btn-sm bg-purple text-white view-more-btn">
+                      View More
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </div>
+
+</div>
+  
+  <style>
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-p {
-    color: black;
-    font-family: verdana;
-    font-size:160;
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
 }
-</style>
-<title>Author<title></title></title>
-</head>
-<body>
+  
+  @media (max-width: 768px) {
+      .display-4 {
+          font-size: 2.5rem;
+      }
+  }
+  </style>
 
-<h1>{{ author.name }}</h1>
-<p>{{ author.description }}<p>
-
-{% for artwork in artworks %}
-<h2><a href="{% url 'artwork' artwork.title %}">{{ artwork.title }}</a></h2>
-
-{% endfor %}
-</body>
-</html>
+{% endblock %}
 

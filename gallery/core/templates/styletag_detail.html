@@ -1,27 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artworks with Style Tag: {{ style_tag.tag_name }}</title>
-</head>
-<body>
-    <h1>Artworks with the Style Tag: {{ style_tag.tag_name }}</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 
-    <ul>
-        {% for artwork in artworks %}
-            <li>
-                
-                <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" height="200">
-                
+{% block title %}StyleTag{% endblock %}
 
-                <a href="{% url 'artwork' artwork.title %}">{{ artwork.title }}</a> - {{ artwork.author }}
-            </li>
-        {% empty %}
-            <li>No artworks found for this style tag.</li>
-        {% endfor %}
-    </ul>
+{% block content %}
+<div class="container py-5">
 
-    <a href="{% url 'home' %}">Back to Home</a>
-</body>
-</html>
+    <div class="text-center mb-5">
+      <h1 class="display-4 mb-3" style="color: #4a148c; font-weight: 600;">Style: {{ style_tag.tag_name }}</h1>
+      <div class="purple-divider mx-auto mb-4" style="width: 60px; height: 3px; background: linear-gradient(to right, #6a1b9a, #9c27b0);"></div>
+    </div>
+  
+    <div class="row g-4">
+      {% for artwork in artworks %}
+      <div class="col-md-6 col-lg-3">
+        <div class="card h-100 border-0 shadow-sm artwork-card" style="height: 450px !important;">
+          {% if artwork.image %}
+          <div class="position-relative artwork-image-wrapper">
+            <img 
+              src="{{ artwork.image.url }}" 
+              alt="{{ artwork.title }}" 
+              class="card-img-top"
+              style="height: 250px; object-fit: cover;"
+            >
+            <div class="overlay"></div>
+          </div>
+          {% endif %}
+          <div class="card-body d-flex flex-column justify-content-between">
+            <div>
+              <h5 class="card-title mb-2" style="
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              ">{{ artwork.title }}</h5>
+              <p class="card-text text-muted" style="font-size: 0.9rem;">
+                 <a href="{% url 'author' artwork.author %}" class="artist-link">{{ artwork.author }}</a>
+              </p>
+              {% if artwork.description %}
+                    <p class="card-text" style="
+                      display: -webkit-box;
+                      -webkit-line-clamp: 3;
+                      -webkit-box-orient: vertical;
+                      overflow: hidden;
+                      font-size: 0.9rem;
+                      height: 4.2em;
+                    ">{{ artwork.description }}</p>
+              {% endif %}
+            </div>
+            <div class="text-end mt-2">
+              <a href="{% url 'artwork' artwork.title %}" class="btn btn-sm bg-purple text-white view-more-btn">
+                View More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body text-center py-5">
+            <p class="text-muted mb-0 fs-5">No artworks found for this style tag.</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+{% endblock %}

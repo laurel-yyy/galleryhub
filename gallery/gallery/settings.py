@@ -24,9 +24,9 @@ AUTH_USER_MODEL = 'core.CustomUser'
 SECRET_KEY = 'django-insecure-rz+l&(mv*4+45&fppopw&85d=ac6zl%se5_de@o8rb52je_fx4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,8 +121,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    "core/static",
+    os.path.join(BASE_DIR, 'static')
 ]
 
 MEDIA_URL = '/media/'
