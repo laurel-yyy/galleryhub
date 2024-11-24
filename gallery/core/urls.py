@@ -33,6 +33,9 @@ urlpatterns = [
     path('get_reservations_count/', views.get_reservations_count, name='get_reservations_count'),
     path('reservation/myreservations/', views.view_my_reservation, name='my_reservation'),
     path('get_weather_forecast/', views.get_weather_forecast, name='get_weather_forecast'),
+
+    # path for search
+    path('search/', views.search, name='search'),
 ]
 
 

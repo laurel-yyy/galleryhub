@@ -24,11 +24,29 @@ def home(request):
     """
     Renders the homepage template.
     """
-    return render(request, 'home.html')
+    artworks = Artwork.objects.all()
+    recommended_artworks = artworks.order_by('?')[:2]
+    context = {'artworks': artworks, 'recommended_artworks': recommended_artworks}
+    
+    return render(request, 'home.html', context)
 
 def museum(request):
     galleries = Gallery.objects.all()
     return render(request, 'museum.html', {'galleries': galleries} )
+
+def search(request):
+    artworks = Artwork.objects.all()
+    query = request.GET.get('query')
+    results = artworks.filter(title=query) | artworks.filter(author=query)
+    no_results_message = None
+
+    if len(results) == 0:
+        no_results_message = 'No matching artworks found.'
+
+    print(results) 
+    print(no_results_message)
+    context = {'results': results, 'no_results_message': no_results_message}
+    return render(request, 'search.html', context )
 
 # add the view for a specific gallery
 # def gallery_view(request, gallery_name):
