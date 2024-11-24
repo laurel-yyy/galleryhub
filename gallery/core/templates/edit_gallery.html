@@ -1,54 +1,121 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}{{ gallery.gallery_name }} - GalleryOfOurOwn{% endblock %}
 
 {% block content %}
-<div class="gallery-container">
-    <h1>{{ gallery.gallery_name }}</h1> 
-    <h3>Image:</h3>
+<div class="container py-5">
+    <div class="row">
+        <!-- Gallery Info Section -->
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary">
+                    <h1 class="card-title h3 text-white mb-0">Edit {{ gallery.gallery_name }}</h1>
+                </div>
+                <div class="card-body">
+                    <!-- Current Image Preview -->
+                    <div class="text-center mb-4">
+                        {% if gallery.image %}
+                            <img src="{{ gallery.image.url }}" alt="{{ gallery.gallery_name }}" 
+                                 class="img-fluid rounded" style="max-height: 300px;">
+                        {% else %}
+                            <div class="alert alert-info">No image available.</div>
+                        {% endif %}
+                    </div>
 
-    {% if gallery.image %}
-        <img src="{{ gallery.image.url }}" alt="{{ gallery.gallery_name }}" class="gallery-image">
-    {% else %}
-        <p>No image available.</p>
-    {% endif %}
+                    <!-- Edit Form -->
+                    <form action="{% url 'edit_gallery' gallery.gallery_name %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                            </label>
+                            {% render_field field class="form-control" %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
 
-    <form action="{% url 'edit_gallery' gallery.gallery_name %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }} 
+                        <div class="mb-3">
+                            <label class="form-label">Current Rating</label>
+                            <div class="rating-display p-2 bg-light rounded">
+                                <div class="stars" style="color: gold;">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= gallery.rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                    <span class="ms-2">{{ gallery.rating }}/5</span>
+                                </div>
+                            </div>
+                        </div>
 
-        <p>Rating: {{ gallery.rating }}</p>
-
-        <button type="submit">Save Changes</button>
-    </form>
-</div>
-
-<h3>Artworks: </h3>
-<div class="artwork-container">
-
-    {% for artwork in gallery.artwork.all %}
-    <div class="artwork-card">
-        <a href="{% url 'edit_artwork' gallery.gallery_name artwork.title %}">
-            <img src="{{ artwork.image.url}}" alt="{{ artwork.title }}" class="artwork-image">
-            <p>{{ artwork.title }}</p>
-        </a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 
+    <!-- Artworks Section -->
+    <div class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Artworks</h2>
+            <div class="btn-group">
+                <a href="{% url 'add_artwork' gallery.gallery_name %}" class="btn btn-outline-success">
+                    <i class="bi bi-plus-circle"></i> Add New Artwork
+                </a>
+                <a href="{% url 'add_author' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-person-plus"></i> Add New Author
+                </a>
+                <a href="{% url 'add_styletag' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-tag"></i> Add New Style Tag
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for artwork in gallery.artwork.all %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 artwork-card hover-shadow">
+                    <a href="{% url 'edit_artwork' gallery.gallery_name artwork.title %}" 
+                       class="text-decoration-none">
+                        <img src="{{ artwork.image.url}}" alt="{{ artwork.title }}" 
+                             class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-dark">{{ artwork.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
-<a href="{% url 'add_artwork' gallery.gallery_name %}">
-    <button type="button">Add New Artwork</button>
-</a>
+<style>
 
-<a href="{% url 'add_author' %}">
-    <button type="button">Add New Author</button>
-</a>
+.hover-shadow {
+    transition: all 0.3s ease;
+}
 
-<a href="{% url 'add_styletag' %}">
-    <button type="button">Add New Style Tag</button>
-</a>
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
 
+.artwork-card a:hover {
+    text-decoration: none;
+}
 
+.btn-group .btn {
+    margin-left: 0.5rem;
+}
 
+</style>
 {% endblock %}

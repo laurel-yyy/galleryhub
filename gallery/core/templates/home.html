@@ -1,8 +1,20 @@
 {% extends 'base.html' %} {% load static %} {% block title %}Home - GalleryHub
 {% endblock %} {% block content %}
 
+
 <div class="home">
+  
   <div class="welcome">
+    {% if messages %}
+    <div class="messages mb-3 text-center">
+        {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% if user.is_authenticated %}
     <h1>Welcome to the GalleryHub, {{ user.username }}!</h1>
     {% else %}

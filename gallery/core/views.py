@@ -105,7 +105,9 @@ def edit_gallery(request, gallery_name):
     the name, and allows the user to edit the gallery and associated artworks.
     On successful POST, saves the changes and redirects back to the edit page.
     """
+    
     if not request.user.is_staff:
+        messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
         return redirect('home')
     
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
@@ -137,6 +139,7 @@ def edit_artwork_view(request, gallery_name, artwork_title):
     """
 
     if not request.user.is_staff:
+        messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
         return redirect('home')
 
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
@@ -172,6 +175,7 @@ def add_artwork_view(request, gallery_name):
     """
 
     if not request.user.is_staff:
+        messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
         return redirect('home')
     
     gallery = get_object_or_404(Gallery, gallery_name=gallery_name)
@@ -202,6 +206,7 @@ def add_author_view(request):
     """
 
     if not request.user.is_staff:
+        messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
         return redirect('home')
 
     if request.method == 'POST':
@@ -224,6 +229,7 @@ def add_styletag_view(request):
     based on the request. If the method is GET, it displays the style tag creation form.
     """
     if not request.user.is_staff:
+        messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
         return redirect('home')
     
     if request.method == 'POST':
@@ -266,8 +272,7 @@ def author(request, author_name):
     except Author.DoesNotExist:
         return HttpResponse("Author not found", status=404)
 
-    artworks = Artwork.objects.filter(author=author_found)
-
+    artworks = Artwork.objects.filter(author=author_found).select_related('author')
     context = {
         'author': author_found,
         'artworks': artworks,
