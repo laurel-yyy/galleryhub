@@ -14,7 +14,9 @@ GalleryHub {% endblock %} {% block content %}
   <div class="artworkContainer">
     {% for artwork in artworks %}
     <div class="artworkItem">
-      <div class="artworkTitle">{{ artwork.title }}</div>
+      <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <a href="{% url 'artwork' artwork.title %}" class="text-decoration-none text-dark">{{ artwork.title }}</a>
+      </h5>
       <img
         src="{{ artwork.image.url }}"
         alt="{{ artwork.title }}"
