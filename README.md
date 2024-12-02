@@ -179,8 +179,8 @@ You can install and run the project in one of the following ways: setting up the
    <img src=".\doc\admin(3).png" alt="admin(3)">
 
    <img src=".\doc\admin(4).png" alt="admin(4)">
-
-![admin(5)](.\doc\admin(5).png)
+   
+   <img src=".\doc\admin(5).png" alt="admin(5)">
 
 
 
