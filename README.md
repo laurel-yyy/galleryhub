@@ -126,21 +126,14 @@ You can install and run the project in one of the following ways: setting up the
 
    the recommendation changes each time you reload the home page.
 
-   ![browse(3)](.\doc\browse(3).png)
-
-   ![browse(4)](.\doc\browse(4).png)
-
-   ![browse(5)](.\doc\browse(5).png)
-
-   ![browse(6)](.\doc\browse(6).png)
-
-   ![browse(7)](.\doc\browse(7).png)
-
-   ![browse(8)](.\doc\browse(8).png)
-
-   ![browse(9)](.\doc\browse(9).png)
-
-   ![browse(10)](.\doc\browse(10).png)
+   <img src=".\doc\browse(3).png" alt="browse(3)">
+   <img src=".\doc\browse(4).png" alt="browse(4)">
+   <img src=".\doc\browse(5).png" alt="browse(5)">
+   <img src=".\doc\browse(6).png" alt="browse(6)">
+   <img src=".\doc\browse(7).png" alt="browse(7)">
+   <img src=".\doc\browse(8).png" alt="browse(8)">
+   <img src=".\doc\browse(9).png" alt="browse(9)">
+   <img src=".\doc\browse(10).png" alt="browse(10)">
 
    
 
@@ -158,9 +151,8 @@ You can install and run the project in one of the following ways: setting up the
 
    if the reservation can't satisfy any of the limit, the submission will fail and the page will show the error message. Otherwise the user will be redirected to the` my reservation` page.
 
-   ![](.\doc\reservation (1).png)
-
-   ![reservation (2)](.\doc\reservation (2).png)
+   <img src="./doc/reservation(1).png" alt="reservation(1)">
+   <img src="./doc/reservation(2).png" alt="reservation(2)">
 
 
 
@@ -180,15 +172,13 @@ You can install and run the project in one of the following ways: setting up the
 
    you can get to the edit page by clicking the `edit` button on gallery info page.
 
-   ![admin](.\doc\admin.png)
+   <img src=".\doc\admin.png" alt="admin">
 
-    
+   <img src=".\doc\admin(2).png" alt="admin(2)">
 
-![](.\doc\admin(2).png)
+   <img src=".\doc\admin(3).png" alt="admin(3)">
 
-![admin(3)](.\doc\admin(3).png)
-
-![admin(4)](C:\Users\yangl\Desktop\NEU\info5002\finalproject\doc\admin(4).png)
+   <img src=".\doc\admin(4).png" alt="admin(4)">
 
 ![admin(5)](.\doc\admin(5).png)
 
