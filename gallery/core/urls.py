@@ -11,8 +11,7 @@ urlpatterns = [
     # path for login, logout and register
     path('register/', views.register, name="register"),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('page/', views.different_view_example, name="page" ),
+    path('logout/', views.logout_view, name='logout'),
     
     # path for gallery browse
     path('gallery/museum/', views.museum, name='museum'),
@@ -32,7 +31,6 @@ urlpatterns = [
     path('reservation/createorder/', views.create_reservation, name='create_reservation'),
     path('get_reservations_count/', views.get_reservations_count, name='get_reservations_count'),
     path('reservation/myreservations/', views.view_my_reservation, name='my_reservation'),
-    path('get_weather_forecast/', views.get_weather_forecast, name='get_weather_forecast'),
 
     # path for search
     path('search/', views.search, name='search'),

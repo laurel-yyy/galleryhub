@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect,  get_object_or_404
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
@@ -30,6 +30,10 @@ def home(request):
     
     return render(request, 'home.html', context)
 
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
 def museum(request):
     galleries = Gallery.objects.all()
     return render(request, 'museum.html', {'galleries': galleries} )
@@ -48,16 +52,11 @@ def search(request):
     context = {'results': results, 'no_results_message': no_results_message}
     return render(request, 'search.html', context )
 
-# add the view for a specific gallery
-# def gallery_view(request, gallery_name):
-#     gallery = Gallery.objects.get(gallery_name=gallery_name)
-#     artworks = Artwork.objects.filter(gallery=gallery)
-#     return render(request, 'gallery.html', {
-#         'gallery': gallery,
-#         'artworks': artworks
-#     })
 
 def gallery_view(request, gallery_name):
+    '''
+    display the info and all exhibited artworks of a gallery.
+    '''
     gallery = Gallery.objects.get(gallery_name=gallery_name)
     #gallery_artworks = Artwork.objects.filter(gallery=gallery)
     gallery_artworks = Artwork.objects.filter(gallery=gallery).select_related('gallery')
@@ -69,9 +68,7 @@ def gallery_view(request, gallery_name):
 
 def register(request):
     """
-    Handles user registration. If the method is POST and the form is valid,
-    a new user is created, logged in, and redirected to the homepage.
-    If the method is GET, it renders the registration form.
+    new account register
     """
     if request.method == 'POST':
         register_form = CustomUserCreationForm(request.POST)
@@ -85,25 +82,13 @@ def register(request):
     return render(request, 'register.html', {'form': register_form})
 
 
-@login_required
-def different_view_example(request):
-    """
-    An example for render different view to user and admin
-    """
-    if request.user.is_staff:
-        return render(request, 'admin_page.html')
-    else:
-        return render(request, 'user_page.html')
-
-
 # Views for admin 
 
 @login_required
 def edit_gallery(request, gallery_name):
     """
-    Handles the editing of a gallery. Retrieves the gallery instance based on
-    the name, and allows the user to edit the gallery and associated artworks.
-    On successful POST, saves the changes and redirects back to the edit page.
+    only staff allowed
+    edit the info of the gallery. display all artworks exhibited in the gallery.
     """
     
     if not request.user.is_staff:
@@ -133,9 +118,8 @@ def edit_gallery(request, gallery_name):
 @login_required
 def edit_artwork_view(request, gallery_name, artwork_title):
     """
-    Handles the editing of a specific artwork. Retrieves the artwork based on the title
-    and its associated gallery. If the method is POST and the form is valid, updates the
-    artwork and redirects to the gallery edit page.
+    only staff allowed
+    change the properity value (except rating score) of an existing artwork.
     """
 
     if not request.user.is_staff:
@@ -169,9 +153,8 @@ def edit_artwork_view(request, gallery_name, artwork_title):
 @login_required
 def add_artwork_view(request, gallery_name):
     """
-    Handles the creation of a new artwork for a specific gallery. If the method
-    is POST and the form is valid, it saves the new artwork and redirects to the
-    gallery edit page. If the method is GET, it displays a blank artwork form.
+    only staff allowed
+    add a new artwork
     """
 
     if not request.user.is_staff:
@@ -200,9 +183,8 @@ def add_artwork_view(request, gallery_name):
 @login_required
 def add_author_view(request):
     """
-    Handles the creation of a new author. If the method is POST and the form is valid,
-    it saves the new author and redirects to the previous page or the gallery edit page
-    based on the request. If the method is GET, it displays the author creation form.
+    only staff allowed
+    add a new author
     """
 
     if not request.user.is_staff:
@@ -224,9 +206,8 @@ def add_author_view(request):
 @login_required
 def add_styletag_view(request):
     """
-    Handles the creation of a new style tag. If the method is POST and the form is valid,
-    it saves the new style tag and redirects to the previous page or the gallery edit page
-    based on the request. If the method is GET, it displays the style tag creation form.
+    only staff allowed
+    add a new styletag
     """
     if not request.user.is_staff:
         messages.error(request, "Access Denied: Administrator privileges required. Please contact root for access.")
@@ -252,13 +233,13 @@ def artwork(request, artwork_title):
     return render(request, 'artwork.html', context)
 
 def styletag_detail(request, tag_name):
-    # Get the style tag by its tag_name
+    '''
+    display the artworks of a specific style
+    '''
     style_tag = get_object_or_404(StyleTag, tag_name=tag_name)
     
-    # Retrieve all artworks associated with this style tag
     artworks = style_tag.artwork.all()
 
-    # Render a template that lists all artworks with this style tag
     return render(request, 'styletag_detail.html', {
         'style_tag': style_tag,
         'artworks': artworks,
@@ -266,7 +247,9 @@ def styletag_detail(request, tag_name):
 
     
 def author(request, author_name):
-
+    '''
+    author introduction page. display all artworks of the same author.
+    '''
     try:
         author_found = Author.objects.get(name=author_name)
     except Author.DoesNotExist:
@@ -282,6 +265,9 @@ def author(request, author_name):
 
 @login_required
 def create_reservation(request):
+    '''
+    for users to create new reservation
+    '''
     current_reservations = None
     capacity = None
 
@@ -375,6 +361,9 @@ def view_my_reservation(request):
 
 @login_required
 def get_reservations_count(request):
+    '''
+    calculate the capacity and current_reservation of the selected date and gallery.
+    '''
     gallery_name = request.GET.get('gallery_name')
     order_date = request.GET.get('order_date')
 
@@ -392,6 +381,3 @@ def get_reservations_count(request):
         })
     
     return JsonResponse({'error': 'Invalid data'}, status=400)
-
-def get_weather_forecast(request):
-    return null

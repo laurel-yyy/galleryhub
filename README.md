@@ -8,7 +8,7 @@ This project is an art gallery website based on `python3.8` and `Django4.0`. Vis
 
 [Installation and Setup](#installation-and-setup) 
 
-[Quick Demo ](#quick-demo) ❌ TBC  
+[Quick Demo ](#quick-demo) 
 
 
 
@@ -16,22 +16,22 @@ This project is an art gallery website based on `python3.8` and `Django4.0`. Vis
 
 - **User registration and login**
 
-  Users can create an account and securely log in to access personalized features such as reservations and detailed artwork information.
+  Users can create an account and log in to access personalized features such as reservations and detailed artwork information.
 
 - **Browse gallery information**
 
   Users can explore galleries and view detailed information about the artworks displayed in each gallery. For each artwork, users can:
 
-  - View its detailed information, including description and associated styles.
+  - View its detailed information, including description, associated styles and author.
   - Discover similar artworks based on shared styles.
-  - See other artworks by the same author.
+  - Discover other artworks by the same author.
 
 - **Reservation system**
 
   Users can make reservations to visit galleries, with the following restrictions:
 
   - Each user has a daily limit on the number of people they can include in their reservation.
-  - Each gallery has a visitor capacity, ensuring the venue does not become overcrowded.
+  - Each gallery has a visitor capacity.
 
 - **Admin Management**
 
@@ -92,14 +92,14 @@ You can install and run the project in one of the following ways: setting up the
 2. **Set up virtual environment**
 
    ```
-   python3 -m venv env
+   python -m venv env
    source env/bin/activate
    ```
 
 3. **Install dependencies**
 
    ```
-   pip install django pillow
+   pip install django pillow django-widget-tweaks
    ```
 
 4. **Run Server**
@@ -114,11 +114,83 @@ You can install and run the project in one of the following ways: setting up the
 
 ## Quick Demo
 
+1. **Register and Login**
+
+   <img src=".\doc\signup.png" alt="Register" style="zoom:50%;" />
+
+   <img src=".\doc\login.png" alt="Login" style="zoom:50%;" />
+
+   
+
+2. **browse gallery information**
+
+   the recommendation changes each time you reload the home page.
+
+   ![browse(3)](.\doc\browse(3).png)
+
+   ![browse(4)](.\doc\browse(4).png)
+
+   ![browse(5)](.\doc\browse(5).png)
+
+   ![browse(6)](.\doc\browse(6).png)
+
+   ![browse(7)](.\doc\browse(7).png)
+
+   ![browse(8)](.\doc\browse(8).png)
+
+   ![browse(9)](.\doc\browse(9).png)
+
+   ![browse(10)](.\doc\browse(10).png)
+
+   
+
+   
+
+3. **make reservation**
+
+   :mega::mega::mega:Only accessible to logined users.:mega::mega::mega:
+
+   the max number of people of a reservation is 5. 
+
+   after the user choose the date and gallery, the page will show the remaining capacity for the selected day.
+
+   an account can only make reservation on the same day once. and users can delete their upcoming reservations.
+
+   if the reservation can't satisfy any of the limit, the submission will fail and the page will show the error message. Otherwise the user will be redirected to the` my reservation` page.
+
+   ![](.\doc\reservation (1).png)
+
+   ![reservation (2)](.\doc\reservation (2).png)
 
 
 
 
 
+4. **admin page**
+
+   :mega::mega::mega:Only staff users are allowed to these pages:mega::mega::mega:
+
+   Others will see an error message and be blocked and redirected to the home page.
+
+   The default superuser's user name is root, password is 123456. We also created a default admin  account whose user name is alice, password is 123456.
+
+   To add your new admin, go to the url `localhost:8000/admin/`, login root user, and the click the `is staff` checkbox of your new user. 
+
+   
+
+   you can get to the edit page by clicking the `edit` button on gallery info page.
+
+   ![admin](.\doc\admin.png)
+
+    
+
+![](.\doc\admin(2).png)
+
+![admin(3)](.\doc\admin(3).png)
+
+![admin(4)](C:\Users\yangl\Desktop\NEU\info5002\finalproject\doc\admin(4).png)
+
+![admin(5)](.\doc\admin(5).png)
 
 
 
